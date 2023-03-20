@@ -11,8 +11,7 @@ if __name__ == '__main__':
 
 
 def reg_number_of_comments(code):
-
-
+    pass
 
 
 def comments_readability(code):
