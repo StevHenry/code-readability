@@ -1,9 +1,9 @@
 import ast
-
-
+file =  open("./resources/DatasetDorn/dataset/snippets/python/10.jsnp" , 'r', encoding = "utf-8") 
+snippet1 = file.read()
 
 def number_Of_Loops(code):
-    # Parse the code snippet into an abstract syntax tree
+    
     tree = ast.parse(code)
 
     # Initialize counters for loops 
@@ -20,7 +20,6 @@ def number_Of_Loops(code):
     return {"num_loops": num_loops}
 
 def number_Of_Lines(code):
-    # Parse the code snippet into an abstract syntax tree
     tree = ast.parse(code)
 
     # Initialize counters for  lines
@@ -34,4 +33,6 @@ def number_Of_Lines(code):
        
 
     # Return the results as a dictionary
-    return {"num_lines": num_lines}
+    return  num_lines
+
+number_Of_Lines(snippet1)
