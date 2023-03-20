@@ -1,38 +1,22 @@
 import ast
-file =  open("./resources/DatasetDorn/dataset/snippets/python/10.jsnp" , 'r', encoding = "utf-8") 
+import re
+file =  open("./resources/DatasetDorn/dataset/snippets/python/5.jsnp" , 'r', encoding = "utf-8") 
 snippet1 = file.read()
 
-def number_Of_Loops(code):
-    
-    tree = ast.parse(code)
 
-    # Initialize counters for loops 
-    num_loops = 0
-   
+def reg_number_of_lines(code) : 
+    x = re.findall("\n", code)
+    return len(x)
 
-    # Traverse the AST to count loops 
-    for node in ast.walk(tree):
-        if isinstance(node, ast.For) or isinstance(node, ast.While):
-            num_loops += 1
-       
+def reg_number_of_loops(code) : 
+    x = re.findall("for" , code) 
+    y = re.findall("while" , code)
+    output = x+y
+    if len(output) == 0 : 
+        return "snippet does not contain loops"
+    else :
+        return len(output)
 
-    # Return the results as a dictionary
-    return {"num_loops": num_loops}
 
-def number_Of_Lines(code):
-    tree = ast.parse(code)
-
-    # Initialize counters for  lines
-    num_lines = 0
-   
-
-    # Traverse the AST to count  lines
-    for node in ast.walk(tree):
-        if isinstance(node, ast.Expr):
-            num_lines += 1
-       
-
-    # Return the results as a dictionary
-    return  num_lines
-
-number_Of_Lines(snippet1)
+x = reg_number_of_loops(snippet1)
+print(x)
