@@ -1,6 +1,6 @@
 from enum import Enum
 
-class Langage(Enum):
+class ProgrammingLanguage(Enum):
     PYTHON = 1
     JAVA = 2
     C = 3
