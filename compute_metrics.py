@@ -1,5 +1,7 @@
 import sys
 
+from code_snippet import CodeSnippet
+
 if __name__ == '__main__':
     """ program parameters: files to compute """
     arguments = sys.argv
@@ -10,7 +12,7 @@ if __name__ == '__main__':
 
 
 
-def reg_number_of_comments(code):
+def reg_number_of_comments(code: CodeSnippet):
     pass
 
 
