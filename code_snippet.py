@@ -71,10 +71,12 @@ class CodeSnippet:
         self.code_replaced_strings_no_comments = replaced_string
         self.code_original_strings_no_comments = self.code_original
 
+        for comment in comments:
+            self.code_replaced_strings_no_comments = self.code_replaced_strings_no_comments.replace(comment, "")
+            self.code_original_strings_no_comments = self.code_original_strings_no_comments.replace(comment, "")
 
-    @staticmethod
-    def retrieve_strings(strings: list, code: str) -> str:
-        to_replace = strings_id_re.findall(code)
+    def retrieve_strings(self, working_string: str) -> str:
+        to_replace = replaced_strings_re.findall(working_string)
         for index in to_replace:
-            code = code.replace(string_replacement_basis + str(index), strings[int(index)])
-        return code
+            working_string = working_string.replace(string_replacement_basis + index, self.code_strings[int(index)])
+        return working_string

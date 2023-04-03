@@ -1,5 +1,4 @@
 import sys
-import ast
 import re
 import numpy as np
 from code_snippet import CodeSnippet, ProgrammingLanguage
@@ -14,6 +13,7 @@ if __name__ == '__main__':
     else:
         files = ['./resources/DatasetDorn/dataset/snippets/python/0.jsnp']
 
+
 def returnMetrics(code: CodeSnippet) -> tuple:
     code.LN = reg_number_of_lines(code)
     code.LC = reg_number_of_loops(code)
@@ -27,9 +27,7 @@ def returnMetrics(code: CodeSnippet) -> tuple:
     return code.LN, code.LC, code.LL, code.CL, code.BL, code.ID, code.IL, code.PA, code.FP
 
 
-
-
-def comments_readability(code):
+def comments_readability(code: CodeSnippet):
     """
     Cette fonction prend en entrée une chaîne de caractères représentant du code Python
     et renvoie une chaîne de caractères contenant tous les commentaires présents dans le code, en les joignant avec des points pour délimiter des phrases.
@@ -120,6 +118,41 @@ def proportion_good_indentations(code : CodeSnippet):
         proportion = nb_lignes_correctes / len(code.splitlines())
 
         return proportion
+"""
+
+def proportion_good_indentations(code : CodeSnippet):
+
+    if code.language == ProgrammingLanguage.PYTHON:
+        return 1 #indentation forcément parfaite en Python
+
+    codelines = code.get_code(False, False)
+    bracesCounter = 0
+    indentCounter = 0
+    wellIndentedLines = 0
+    linesCounter = 0
+    for i, car in enumerate(codelines.rstrip(codelines[-3:-1])):
+        match car:
+            case '{':
+                bracesCounter += 1
+            case '}':
+                bracesCounter -= 1
+            case '\n':
+                while(codelines[i+1:i+2] == '\t'):
+                    indentCounter += 1
+                    i += 2
+                if indentCounter == bracesCounter:
+                    wellIndentedLines += 1
+                linesCounter += 1
+    return wellIndentedLines/linesCounter
+
+def mean_identifier_length(code):
+    # find all identifiers
+    identifiers = re.findall(r'\b\w+\b', code.get_code(False, False).split('\n'))
+    # Exclude reserved word in identifiers (for, while, print, etc)
+    identifiers = [id for id in identifiers if id not in keyword.kwlist]
+    avg_length = sum(len(id) for id in identifiers) / len(identifiers)
+    print("La taille moyenne des identificateurs est de :", avg_length, "caractères.")
+    return avg_length
 
 def max_streak_opening_parentheses(code : CodeSnippet):
     count = 0
@@ -141,7 +174,7 @@ def max_streak_period(code):
     print(list_mot)
 
 
-file =  open("./resources/DatasetDorn/dataset/snippets/python/5.jsnp" , 'r', encoding = "utf-8")
+file = open("./resources/DatasetDorn/dataset/snippets/python/5.jsnp", 'r', encoding="utf-8")
 snippet1 = file.read()
 
 
