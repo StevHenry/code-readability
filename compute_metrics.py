@@ -14,12 +14,17 @@ if __name__ == '__main__':
     else:
         files = ['./resources/DatasetDorn/dataset/snippets/python/0.jsnp']
 
-def findMetrics(code):
+def returnMetrics(code: CodeSnippet) -> tuple:
     code.LN = reg_number_of_lines(code)
     code.LC = reg_number_of_loops(code)
     code.LL = lines_length_mean(code)
     code.CL = comment_line_per_code_line(code)
     code.BL = blank_line_per_code_line(code)
+    code.ID = proportion_good_indentations(code)
+    code.IL = mean_identifier_length(code)
+    code.PA = max_streak_opening_parentheses(code)
+    code.FP = max_streak_period(code)
+    return code.LN, code.LC, code.LL, code.CL, code.BL, code.ID, code.IL, code.PA, code.FP
 
 
 
@@ -49,24 +54,19 @@ def comments_readability(code):
     return '.'.join(comments)  # Joindre les commentaires en une seule chaîne de caractères, en les délimitant avec des points pour délimiter des phrases
 
 
-
 def reg_number_of_lines(code : CodeSnippet):
-    x = re.findall("\n", code.get_code(with_strings=True,with_coms=True))
+    x = re.findall("\n", code.get_code(True, True))
     return len(x)
 
 
 def reg_number_of_loops(code : CodeSnippet) :
-    x = re.findall("for" , code.get_code(with_strings=False,with_coms=False))
-    y = re.findall("while" , code.get_code(with_strings=False,with_coms=False))
+    x = re.findall("for" , code.get_code(False, False))
+    y = re.findall("while" , code.get_code(False, False))
     output = x+y
-    if len(output) == 0 :
-        return "snippet does not contain loops"
-    else :
-        return len(output)
-
+    return len(output)
 
 def lines_length_mean(code : CodeSnippet):
-    lines = code.get_code(with_strings=True,with_coms=True).split('\n')
+    lines = code.get_code(True, True).split('\n')
     list_length = []
     for line in lines:
         if line.replace(" ","") != '': # verifie que la ligne n'est pas vide ou ne contient pas que des espaces car sinon cela fausse la moyenne
@@ -74,23 +74,22 @@ def lines_length_mean(code : CodeSnippet):
     return np.mean(list_length)
 
 def comment_line_per_code_line(code : CodeSnippet):
-    comments=code.comments.split('\n')
-    code_no_comments=code.get_code(with_strings=True,with_coms=False).split('\n')
+    comments = code.code_comments
+    code_no_comments = code.get_code(True, False).split('\n')
     return len(comments)/(len(comments)+len(code_no_comments))
 
 
-
-# A voir si on laise with_coms=True car ça augmente la valeur de len(lines) et donc diminue un peu la proportion de blank line
+# A voir si on laisse with_coms=True car ça augmente la valeur de len(lines) et donc diminue un peu la proportion de blank line
 # Mais si on met with_coms=False il faut que Steven supprime les lignes vides qui sont laissées lorsqu'il supprime les commentaires
 def blank_line_per_code_line(code : CodeSnippet):
-    lines = code.get_code(with_strings=True,with_coms=True).split('\n')
+    lines = code.get_code(True,True).split('\n')
     blank_line = []
     for line in lines:
         if line.replace(" ", "") == '':
             blank_line.append(line)
     return len(blank_line)/len(lines)
 
-
+"""
 def proportion_good_indentations(code : CodeSnippet):
 
     if code.langage == ProgrammingLanguage.PYTHON:
@@ -102,7 +101,6 @@ def proportion_good_indentations(code : CodeSnippet):
             indentation = len(ligne) - len(ligne.lstrip())
             if indentation % 4 == 0:
                 nb_lignes_correctes += 1
-
         # Calcule la proportion de bonnes indentations
         proportion = nb_lignes_correctes / len(code.splitlines())
 
@@ -126,12 +124,10 @@ def proportion_good_indentations(code : CodeSnippet):
 def max_streak_opening_parentheses(code : CodeSnippet):
     count = 0
     max_count = 0
-    l = []
-    for caractere in code.original_text:
+    for caractere in code.get_code(False, False):
         if caractere == "(":
             count += 1
         elif caractere == ")":
-            l.append(count)
             if count > max_count:
                 max_count = count
             count = 0
@@ -177,4 +173,7 @@ print("max_streak_opening_parentheses is : ",test_max_streak_opening_parentheses
 test_max_streak_period = max_streak_period(snippet1)
 print("max_streak_period is : ",test_max_streak_period)
 
+with open('./resources/dataset/Dataset/Snippets/1.jsnp', "r") as fichier:
+    codeTest = CodeSnippet(ProgrammingLanguage.JAVA,"exemple de code \n etc")
 
+returnMetrics(codeTest)
