@@ -117,6 +117,7 @@ def proportion_good_indentations(code : CodeSnippet):
                     nb_lignes_correctes += 1
                     break
 
+
         # Calcule la proportion de bonnes indentations
         proportion = nb_lignes_correctes / len(code.splitlines())
 
@@ -137,13 +138,7 @@ def max_streak_opening_parentheses(code : CodeSnippet):
             continue
     return max_count
 
-def mean_identifier_length(code):
-    # find all identifiers
-    identifiers = re.findall(r'\b\w+\b', code.get_code(with_strings=False,with_coms=False).split('\n'))
-    # Exclude reserved word in identifiers (for, while, print, etc)
-    identifiers = [id for id in identifiers if id not in keyword.kwlist]
-    avg_length = sum(len(id) for id in identifiers) / len(identifiers)
-    print("La taille moyenne des identificateurs est de :", avg_length, "caractères.")
+
 def max_streak_period(code):
     period_regex = r"(\w+(\(.*\))?)([\.]{1}\1?)+"
     list_mot = re.findall(period_regex, code)

@@ -3,8 +3,9 @@ import re
 
 string_re = re.compile(r"((?<![\\])['\"])((?:.(?!(?<![\\])\1))*.?)\1", re.MULTILINE)
 string_replacement_basis = "09444a69322fe262§"
-strings_id_re = re.compile(rf"(?<={ string_replacement_basis })\d+", re.MULTILINE)
-comments_re = re.compile(r"(#.*$)|(//.*$)|(\"\"\".*\"\"\")|(\/\*.*\*\/)")
+replaced_strings_re = re.compile(rf"(?<={string_replacement_basis})\d+", re.MULTILINE)
+comments_re = re.compile(r'(\n*#.*)|(\n*//.*)|(\n*"""(.|\n)*""")|(/\*.*\*\/)', re.MULTILINE)
+comments_format_re = re.compile(r'((\\n)*#)|((\\n)*//)|((\\n)*""")|((\\n)*/\*)|((\\n)*\*/)', re.MULTILINE)
 
 
 class ProgrammingLanguage(Enum):
@@ -15,52 +16,60 @@ class ProgrammingLanguage(Enum):
 
 class CodeSnippet:
     def __init__(self, language: ProgrammingLanguage, original_text: str):
-        self.langage = language
-        # contenu total du code
-        self.original_text = original_text
-        # contenu du code en occultant les commentaires du code
-        self.code_no_comments = ''
-        # commentaire du code
-        self.comments = ''
+        self.language = language
 
         self.code_strings = []
-        self.code_strings_replaced = ''
-        self.compute_replaced_string()
+        self.code_comments = []
 
-        self.code_no_strings_comments = ''
+        self.code_original = original_text
+        self.code_original_strings_no_comments = ''
+        self.code_replaced_strings_no_comments = ''
+        self.code_replaced_strings_with_comments = ''
 
-    def get_code(self, with_strings: bool, with_coms: bool) -> str:
-        if with_strings and with_coms:
-            return self.original_text
-        elif with_strings:
-            return self.code_no_comments
+        self.__compute_strings()
+
+    def get_code(self, original_strings: bool, with_coms: bool) -> str:
+        if original_strings and with_coms:
+            return self.code_original
+        elif original_strings:
+            return self.code_original_strings_no_comments
         elif with_coms:
-            return self.code_no_string_with_com
+            return self.code_replaced_strings_with_comments
         else:
-            return self.code_no_string_no_com
+            return self.code_replaced_strings_no_comments
 
-    def compute_replaced_string(self) -> None:
-        code_strings = string_re.findall(self.original_text)
-        replaced_string = self.original_text
-        i = 0
-        # Replace the string number i by "string_replacement_basis + i"
+    def __compute_strings(self) -> None:
+        replaced_string = self.code_original
+
+        code_strings = string_re.findall(self.code_original)
+        self.code_strings = []
         for string in code_strings:
-            replaced_string = replaced_string.replace(string[1], string_replacement_basis + str(i), 1)
-            i += 1
-        # Minimize the code_strings list (removing unused values)
-        for i in range(len(code_strings)):
-            code_strings[i] = code_strings[i][1]
-        self.code_strings = code_strings
-        self.code_strings_replaced = replaced_string
+            full_str = string[0] + string[1] + string[0]
+            if full_str == '"""':
+                continue
+            replaced_string = replaced_string.replace(full_str, string_replacement_basis + str(len(self.code_strings)), 1)
+            self.code_strings.append(full_str)
 
-    def remove_comments(self, code: str):
-        code_comments = comments_re.findall(code)
-        print(code_comments)
-        without_coms = comments_re.sub("", code)
-        comments = ''
+        comments = comments_re.findall(replaced_string)
+        clean_comments = []
+        for i, comment in enumerate(comments):
+            comments[i] = ''.join(comments[i])
+            clean_com = comments[i]
+            for element in comments_format_re.findall(comments[i]):
+                for subelement in element:
+                    clean_com = clean_com.replace(subelement, '')
 
-        for comment in code_comments:
-            comments += comment[0] + '\n'
+            clean_comments.append(clean_com)
+
+        print(comments)
+        print(clean_comments)
+
+        # Saving computed values into object
+        self.code_comments = comments
+        self.clean_code_comments = clean_comments
+        self.code_replaced_strings_with_comments = replaced_string
+        self.code_replaced_strings_no_comments = replaced_string
+        self.code_original_strings_no_comments = self.code_original
 
 
     @staticmethod
