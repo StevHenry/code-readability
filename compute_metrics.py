@@ -87,16 +87,19 @@ def max_streak_opening_parentheses(code: CodeSnippet):
 
 
 def max_streak_period(code):
-    period_regex = r'((([^ \.\n])+\(.*?\))|([^\. \n]+))(\.\1)*'
-    list_mot = re.findall(period_regex, code.get_code(False, False))
-    print(list_mot)
+    period_regex = r'(((([^\. \n])+\(.*?\))|[^\. \n]+)(\.((([^\. \n])+\(.*?\))|[^\. \n]+))+)'
+    max_streak = 0
+    for chain in re.findall(period_regex, code.get_code(False, False)):
+        print(chain[0].split('.'))
+        max_streak = max(max_streak, len(chain[0].split('.')))
+    return max_streak
 
 
 file = open("./resources/DatasetDorn/dataset/snippets/python/5.jsnp", 'r', encoding="utf-8")
 snippetPython = file.read()
 codeSnippetPython = CodeSnippet(language=ProgrammingLanguage.PYTHON, original_text=snippetPython)
 
-file = open("./resources/DatasetDorn/dataset/snippets/java/102.jsnp", 'r', encoding="utf-8")
+file = open("./resources/DatasetDorn/dataset/snippets/java/106.jsnp", 'r', encoding="utf-8")
 snippetJava = file.read()
 codeSnippetJava = CodeSnippet(language=ProgrammingLanguage.JAVA, original_text=snippetJava)
 
@@ -144,12 +147,10 @@ print("lines_length_max Cuda is : ",test_lines_length_max_Cuda)
 """
 test_comment_line_per_code_line_Py = comment_line_per_code_line(codeSnippetPython)
 print("comment_line_per_code_line_Py is : ",test_comment_line_per_code_line_Py)
-"""
 
 test_comment_line_per_code_line_java = comment_line_per_code_line(codeSnippetJava)
 print("comment_line_per_code_line Java is : ",test_comment_line_per_code_line_java)
 
-"""
 test_comment_line_per_code_line_cuda = comment_line_per_code_line(codeSnippetCuda)
 print("comment_line_per_code_line_cuda is : ",test_comment_line_per_code_line_cuda)
 
@@ -183,10 +184,10 @@ print("max_streak_opening_parentheses_java is : ",test_max_streak_opening_parent
 test_max_streak_opening_parentheses_cuda = max_streak_opening_parentheses(codeSnippetCuda)
 print("max_streak_opening_parentheses_cuda is : ",test_max_streak_opening_parentheses_cuda)
 
-
-test_max_streak_period = max_streak_period(snippet1)
-print("max_streak_period is : ",test_max_streak_period)
-
+"""
+test_max_streak_period = max_streak_period(codeSnippetJava)
+print("max_streak_period is : ", test_max_streak_period)
+"""
 with open('./resources/dataset/Dataset/Snippets/1.jsnp', "r") as fichier:
     codeTest = CodeSnippet(ProgrammingLanguage.JAVA,"exemple de code \n etc")
 
