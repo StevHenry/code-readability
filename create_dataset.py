@@ -135,7 +135,7 @@ print(k)
 def name_feature():
     names = ["number of lines", "number of Loops", "Lines length mean", "Lines length max",
              "comments line per code line", "Proportion of Blank Lines", "Identifiers length (characters)",
-             "Max streak of opening parentheses before a closing one"]
+             "Max streak of opening parentheses before a closing one", "Max streak periods"]
     return names
 
 #print("le nom des features sont : ",name_feature())

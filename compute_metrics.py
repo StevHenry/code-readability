@@ -21,8 +21,8 @@ def returnMetrics(code: CodeSnippet) -> tuple:
     code.BL = blank_line_per_code_line(code) #test OK
     code.ID = indentation_mean(code) #test ok
     code.PA = max_streak_opening_parentheses(code) #test OK
-    #code.FP = max_streak_period(code)
-    return code.LN, code.LC, code.AvgLL, code.MaxLL, code.CL, code.BL, code.ID, code.PA
+    code.FP = max_streak_period(code)
+    return code.LN, code.LC, code.AvgLL, code.MaxLL, code.CL, code.BL, code.ID, code.PA, code.FP
 
 
 def reg_number_of_lines(code: CodeSnippet):
