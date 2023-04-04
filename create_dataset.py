@@ -13,7 +13,7 @@ def data_features():
     for fileName in fichiers_tries:
         path = './resources/dataset/Dataset/Snippets/' + fileName
         # Ouvrir le fichier en mode lecture
-        with open(path, "r") as fichier:
+        with open(path, "r", encoding='utf-8') as fichier:
             # Lire tout le contenu du fichier
             codeContent = fichier.read()
             # Afficher le contenu du fichier
@@ -26,7 +26,7 @@ def data_features():
     for fileName in fichiers_tries:
         path = './resources/DatasetBW/Snippets/java/' + fileName
         # Ouvrir le fichier en mode lecture
-        with open(path, "r") as fichier:
+        with open(path, "r", encoding='utf-8') as fichier:
             # Lire tout le contenu du fichier
             codeContent = fichier.read()
             # Afficher le contenu du fichier
@@ -39,7 +39,7 @@ def data_features():
     for fileName in fichiers_tries:
         path = './resources/DatasetDorn/dataset/snippets/cuda/' + fileName
         # Ouvrir le fichier en mode lecture
-        with open(path, "r") as fichier:
+        with open(path, "r", encoding='utf-8') as fichier:
             # Lire tout le contenu du fichier
             codeContent = fichier.read()
             # Afficher le contenu du fichier
@@ -65,7 +65,7 @@ def data_features():
     for fileName in fichiers_tries:
         path = './resources/DatasetDorn/dataset/snippets/python/' + fileName
         # Ouvrir le fichier en mode lecture
-        with open(path, "r") as fichier:
+        with open(path, "r", encoding='utf-8') as fichier:
             # Lire tout le contenu du fichier
             codeContent = fichier.read()
             # Afficher le contenu du fichier

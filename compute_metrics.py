@@ -2,7 +2,6 @@ import sys
 import re
 import numpy as np
 from code_snippet import CodeSnippet, ProgrammingLanguage
-import keyword
 
 if __name__ == '__main__':
     """ program parameters: files to compute """
@@ -76,10 +75,10 @@ def indentation_mean(code : CodeSnippet):
 def max_streak_opening_parentheses(code: CodeSnippet):
     count = 0
     max_count = 0
-    for caractere in code.get_code(False, False):
-        if caractere == "(":
+    for character in code.get_code(False, False):
+        if character == "(":
             count += 1
-        elif caractere == ")":
+        elif character == ")":
             if count > max_count:
                 max_count = count
             count = 0

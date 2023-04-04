@@ -4,8 +4,10 @@ import re
 string_re = re.compile(r"((?<![\\])['\"])((?:.(?!(?<![\\])\1))*.?)\1", re.MULTILINE)
 string_replacement_basis = "09444a69322fe262§"
 replaced_strings_re = re.compile(rf"(?<={string_replacement_basis})\d+", re.MULTILINE)
-comments_re = re.compile(r'(\n*#.*)|(\n*//.*)|(\n*"""(.|\n)*""")|(/\*.*\*\/)', re.MULTILINE)
-comments_format_re = re.compile(r'((\\n)*#)|((\\n)*//)|((\\n)*""")|((\\n)*/\*)|((\\n)*\*/)', re.MULTILINE)
+comments_re = re.compile(r'(#.*)|(//.*)|("""(.|\n)*""")|(/\*(.|\n(?!$))*\*/)', re.MULTILINE)
+comments_format_re = re.compile(r'#|(//)|(""")|(/\*\*?)|(\*/)', re.MULTILINE)
+start_jump_lines_re = re.compile(r'^(\\n|\s)*', re.MULTILINE)
+end_jump_lines_re = re.compile(r'(\\n|\s)*$', re.MULTILINE)
 
 
 class ProgrammingLanguage(Enum):
@@ -54,15 +56,15 @@ class CodeSnippet:
         clean_comments = []
         for i, comment in enumerate(comments):
             comments[i] = ''.join(comments[i])
+            if comments[i].startswith('\n'):
+                comments[i].replace('\n', '', 1)
             clean_com = comments[i]
             for element in comments_format_re.findall(comments[i]):
-                for subelement in element:
-                    clean_com = clean_com.replace(subelement, '')
-
+                for sub_element in element:
+                    clean_com = clean_com.replace(sub_element, '').replace('\n*', '\n')
+                    clean_com = start_jump_lines_re.sub("", clean_com)
+                    clean_com = end_jump_lines_re.sub("", clean_com)
             clean_comments.append(clean_com)
-
-        print(comments)
-        print(clean_comments)
 
         # Saving computed values into object
         self.code_comments = comments
