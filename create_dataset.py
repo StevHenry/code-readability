@@ -105,16 +105,16 @@ def data_notes_classification():
         notes.append(note)
     cat1, cat2, cat3, cat4 = [0, 0, 0, 0]
     for i, note in enumerate(notes):
-        if note < 2.9:
+        if note < 2.6:
             notes[i]="très peu lisible"
             cat1+=1
         elif note < 3.4:
             notes[i]="peu lisible"
             cat2 += 1
-        elif note < 4:
-            notes[i]="plutôt lisible"
+        elif note < 4.1:
+            notes[i]= "plutôt lisible"
             cat3 += 1
-        elif note > 4:
+        elif note > 4.1:
             notes[i] = "très lisible"
             cat4 += 1
     print("répartition : ", cat1, cat2, cat3, cat4)
