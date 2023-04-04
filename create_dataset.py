@@ -52,7 +52,7 @@ def data_features():
     for fileName in fichiers_tries:
         path = './resources/DatasetDorn/dataset/snippets/java/' + fileName
         # Ouvrir le fichier en mode lecture
-        with open(path, "r") as fichier:
+        with open(path, "r", encoding='utf-8') as fichier:
             # Lire tout le contenu du fichier
             codeContent = fichier.read()
             # Afficher le contenu du fichier
@@ -70,8 +70,11 @@ def data_features():
             codeContent = fichier.read()
             # Afficher le contenu du fichier
             code = CodeSnippet(ProgrammingLanguage.PYTHON, codeContent)
-            listCodeFeatures.append(returnMetrics(code))
+            listeNotesFeatures.append(returnMetrics(code))
+    return listeNotesFeatures
 
+#print(f"liste des notes des métriques : {data_features()}")
+#print(f"la taille de la liste des notes des métriques : {len(data_features())}")
 def data_notes():
     notes = []
     for note in readCSV.readNotes('./resources/dataset/Dataset/scores.csv'):
@@ -116,6 +119,9 @@ def data_notes_classification():
             cat4 += 1
     print("répartition : ", cat1, cat2, cat3, cat4)
     return notes
+
+data_notes_classification()
+
 
 
 def name_feature():

@@ -86,19 +86,28 @@ def max_streak_opening_parentheses(code: CodeSnippet):
             continue
     return max_count
 
-
+"""
 def max_streak_period(code):
     period_regex = r"(\w+(\(.*\))?)([\.]{1}\1?)+"
     list_mot = re.findall(period_regex, code)
     print(list_mot)
+"""
 
 
 file = open("./resources/DatasetDorn/dataset/snippets/python/5.jsnp", 'r', encoding="utf-8")
-snippet1 = file.read()
+snippetPython = file.read()
+codeSnippetPython = CodeSnippet(language=ProgrammingLanguage.PYTHON, original_text=snippetPython)
 
+file = open("./resources/DatasetDorn/dataset/snippets/java/102.jsnp", 'r', encoding="utf-8")
+snippetJava = file.read()
+codeSnippetJava = CodeSnippet(language=ProgrammingLanguage.JAVA, original_text=snippetJava)
 
-test_value_comments_readability = comments_readability(snippet1)
-#print("value_comments_readability is : ", test_value_comments_readability)
+file = open("./resources/DatasetDorn/dataset/snippets/cuda/0.jsnp", 'r', encoding="utf-8")
+snippetCuda = file.read()
+codeSnippetCuda = CodeSnippet(language=ProgrammingLanguage.C, original_text=snippetCuda)
+
+# test_value_comments_readability = comments_readability(snippet1)
+# print("value_comments_readability is : ", test_value_comments_readability)
 """
 test_number_of_lines = reg_number_of_lines(codeSnippet1)
 print("number_of_lines is : ", test_number_of_lines)
