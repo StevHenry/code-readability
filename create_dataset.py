@@ -104,18 +104,32 @@ def data_notes_classification():
     for note in readCSV.readNotes('./resources/DatasetDorn/dataset/scores/python.csv'):
         notes.append(note)
     for i, note in enumerate(notes):
-        if note < 2.6:
+        if note < 3:
             notes[i]="très peu lisible"
-        elif note < 3.4:
-            notes[i]="peu lisible"
-        elif note < 4.1:
+        elif note < 4:
             notes[i]= "plutôt lisible"
-        elif note > 4.1:
+        elif note > 4:
             notes[i] = "très lisible"
     return notes
 
+"""
+test répartition classification :
 
-
+notes=data_notes_classification()
+i = 0
+j=0
+k=0
+for note in notes:
+    if note < 3:
+        i+=1
+    elif note < 4:
+        j+=1
+    elif note > 4:
+        k+=1
+print(i)
+print(j)
+print(k)
+"""
 
 
 def name_feature():
