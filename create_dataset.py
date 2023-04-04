@@ -1,13 +1,12 @@
 import readCSV
-
 from compute_metrics import *
 import os
 from code_snippet import CodeSnippet, ProgrammingLanguage
 from readCSV import *
-
+from sklearn.utils import Bunch
 
 def data_features():
-    listCodeFeatures = []
+    listeNotesFeatures = []
     #premier dataset
     fichiers = os.listdir('./resources/dataset/Dataset/Snippets')
     fichiers_tries = sorted(fichiers, key=lambda x: int(x.split('.')[0]))
@@ -19,7 +18,7 @@ def data_features():
             codeContent = fichier.read()
             # Afficher le contenu du fichier
             code = CodeSnippet(ProgrammingLanguage.JAVA,codeContent)
-            listCodeFeatures.append(returnMetrics(code))
+            listeNotesFeatures.append(returnMetrics(code))
 
     #deuxième dataset (BW)
     fichiers = os.listdir('./resources/DatasetBW/Snippets/java')
@@ -32,7 +31,7 @@ def data_features():
             codeContent = fichier.read()
             # Afficher le contenu du fichier
             code = CodeSnippet(ProgrammingLanguage.JAVA,codeContent)
-            listCodeFeatures.append(returnMetrics(code))
+            listeNotesFeatures.append(returnMetrics(code))
 
     # troisième dataset cuda (Dorn)
     fichiers = os.listdir('./resources/DatasetDorn/dataset/snippets/cuda')
@@ -45,7 +44,7 @@ def data_features():
             codeContent = fichier.read()
             # Afficher le contenu du fichier
             code = CodeSnippet(ProgrammingLanguage.C, codeContent)
-            listCodeFeatures.append(returnMetrics(code))
+            listeNotesFeatures.append(returnMetrics(code))
 
     # troisième dataset java (Dorn)
     fichiers = os.listdir('./resources/DatasetDorn/dataset/snippets/java')
@@ -58,7 +57,7 @@ def data_features():
             codeContent = fichier.read()
             # Afficher le contenu du fichier
             code = CodeSnippet(ProgrammingLanguage.JAVA, codeContent)
-            listCodeFeatures.append(returnMetrics(code))
+            listeNotesFeatures.append(returnMetrics(code))
 
     # troisième dataset python (Dorn)
     fichiers = os.listdir('./resources/DatasetDorn/dataset/snippets/python')
@@ -87,16 +86,58 @@ def data_notes():
         notes.append(note)
     return notes
 
-
 #print("les notes sont", data_notes())
-#print("la taille de la liste des notes sont", len(data_notes()))
-
+#print("la taille de la liste des notes est", len(data_notes()))
+def data_notes_classification():
+    notes = []
+    for note in readCSV.readNotes('./resources/dataset/Dataset/scores.csv'):
+        notes.append(note)
+    for note in readCSV.readNotes('./resources/DatasetBW/oracle.csv'):
+        notes.append(note)
+    for note in readCSV.readNotes('./resources/DatasetDorn/dataset/scores/cuda.csv'):
+        notes.append(note)
+    for note in readCSV.readNotes('./resources/DatasetDorn/dataset/scores/java.csv'):
+        notes.append(note)
+    for note in readCSV.readNotes('./resources/DatasetDorn/dataset/scores/python.csv'):
+        notes.append(note)
+    cat1, cat2, cat3, cat4 = [0, 0, 0, 0]
+    for i, note in enumerate(notes):
+        if note < 2.9:
+            notes[i]="très peu lisible"
+            cat1+=1
+        elif note < 3.4:
+            notes[i]="peu lisible"
+            cat2 += 1
+        elif note < 4:
+            notes[i]="plutôt lisible"
+            cat3 += 1
+        elif note > 4:
+            notes[i] = "très lisible"
+            cat4 += 1
+    print("répartition : ", cat1, cat2, cat3, cat4)
+    return notes
 
 
 def name_feature():
-    names = ["number of lines", "number of Loops", "Lines length mean", "Comment lines per code line ",
-             "Proportion of Blank Lines", "Proportion of good indentation", "Identifiers length (characters)",
-             "Max streak of opening parentheses before a closing one", "Max streak of following periods"]
+    names = ["number of lines", "number of Loops", "Lines length mean", "Lines length max",
+             "comments line per code line", "Proportion of Blank Lines", "Identifiers length (characters)",
+             "Max streak of opening parentheses before a closing one"]
     return names
 
-#print(name_feature())
+#print("le nom des features sont : ",name_feature())
+
+
+
+# Create numpy arrays for data, target, and feature_names
+data = np.array(data_features())
+target = np.array(data_notes())
+feature_names = np.array(name_feature())
+
+
+# Create a Bunch object
+def createBunch():
+    return Bunch(data=data, target=target, feature_names=feature_names, DESCR='My data')
+
+
+if __name__ == '__main__':
+    print(createBunch())
