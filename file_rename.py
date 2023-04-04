@@ -14,8 +14,9 @@ def rename_file(input_file_path: str, output_file_path: str = None):
             print("No output file specified and no known keyword has been found in the input path.")
             print("Aborting the renaming. Please specify the output path or \"java\","
                   " \"python\" or \"cuda\" in the input file path")
-            return
-    shutil.copyfile(input_file_path, output_file_path)
+    return
+
+rename_file('./resources/DatasetBW/snippets/java/1.jnsp')
 
 def generate_output_file_name(index: int, output_folder_path: str, extension: str) -> str:
     """

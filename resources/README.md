@@ -36,17 +36,17 @@ The metrics we chose to use are:
 
 | Metric name | Measured element                                       | Data value interval |
 |-------------|--------------------------------------------------------|---------------------|
-| LN          | Lines                                                  | [ $1; +\infty$ ]    |
-| LC          | Loops                                                  | [ $0; +\infty$ ]    |
+| ~~LN~~      | number of lines                                        | [ $1; +\infty$ ]    |
+| ~~LC~~      | number of loops                                        | [ $0; +\infty$ ]    |
 | NL          | Nested loops + branches                                | [ $0; +\infty$ ]    |
-| LL          | Lines length mean                                      | [ $1; +\infty$ ]    |
-| CL          | Comment lines per code line                            | [ $0; 1$ ]          |
+| ~~LL~~      | Lines length mean                                      | [ $1; +\infty$ ]    |
+| ~~CL~~      | Comment lines per code line                            | [ $0; 1$ ]          |
 | LBS         | Lines' break after statements                          | [ $0; 1$ ]          |
-| BL          | Blank Lines                                            | [ $0; 1$ ]          |
-| ID          | Indentation                                            | [ $0; 1$ ]          |
-| IL          | Identifiers length (characters)                        | [ $1; +\infty$ ]    |
-| PA          | Max streak of opening parentheses before a closing one | [ $1; +\infty$ ]    |
-| FP          | Max streak of following periods                        | [ $1; +\infty$ ]    |
+| ~~BL~~      | Proportion of Blank Lines                              | [ $0; 1$ ]          |
+| ~~ID~~      | Proportion of good indentation                         | [ $0; 1$ ]          |
+| ~~IL~~      | Identifiers length (characters)                        | [ $1; +\infty$ ]    |
+| ~~PA~~      | Max streak of opening parentheses before a closing one | [ $1; +\infty$ ]    |
+| ~~FP~~      | Max streak of following periods                        | [ $1; +\infty$ ]    |
 | SP          | Spaces (around comparison operators)                   | [ $1; +\infty$ ]    |
 
 </div>
@@ -55,3 +55,4 @@ To train our model, multiple arrangements will be tested:
 
 Arrangement A: { LN, NL, LL, CL, ID }<br/>
 Arrangement B: all metrics
+Arrangement possible actuel : { LN, LC, LL, CL, BL, ID, IL, PA, FP }
