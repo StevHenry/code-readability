@@ -85,12 +85,11 @@ def max_streak_opening_parentheses(code: CodeSnippet):
             continue
     return max_count
 
-"""
+
 def max_streak_period(code):
-    period_regex = r"(\w+(\(.*\))?)([\.]{1}\1?)+"
+    period_regex = r'((([^ \.\n])+\(.*?\))|([^\. \n]*))(\.\1)*'
     list_mot = re.findall(period_regex, code)
     print(list_mot)
-"""
 
 
 file = open("./resources/DatasetDorn/dataset/snippets/python/5.jsnp", 'r', encoding="utf-8")
