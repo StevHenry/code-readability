@@ -87,8 +87,8 @@ def max_streak_opening_parentheses(code: CodeSnippet):
 
 
 def max_streak_period(code):
-    period_regex = r'((([^ \.\n])+\(.*?\))|([^\. \n]*))(\.\1)*'
-    list_mot = re.findall(period_regex, code)
+    period_regex = r'((([^ \.\n])+\(.*?\))|([^\. \n]+))(\.\1)*'
+    list_mot = re.findall(period_regex, code.get_code(False, False))
     print(list_mot)
 
 

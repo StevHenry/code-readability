@@ -103,24 +103,18 @@ def data_notes_classification():
         notes.append(note)
     for note in readCSV.readNotes('./resources/DatasetDorn/dataset/scores/python.csv'):
         notes.append(note)
-    cat1, cat2, cat3, cat4 = [0, 0, 0, 0]
     for i, note in enumerate(notes):
         if note < 2.6:
             notes[i]="très peu lisible"
-            cat1+=1
         elif note < 3.4:
             notes[i]="peu lisible"
-            cat2 += 1
         elif note < 4.1:
             notes[i]= "plutôt lisible"
-            cat3 += 1
         elif note > 4.1:
             notes[i] = "très lisible"
-            cat4 += 1
-    print("répartition : ", cat1, cat2, cat3, cat4)
     return notes
 
-data_notes_classification()
+
 
 
 
@@ -139,11 +133,13 @@ data = np.array(data_features())
 target = np.array(data_notes())
 feature_names = np.array(name_feature())
 
-
+target_classification = data_notes_classification()
 # Create a Bunch object
-def createBunch():
+def create_bunch():
     return Bunch(data=data, target=target, feature_names=feature_names, DESCR='My data')
 
+def create_bunch_classification():
+    return Bunch(data=data, target=target_classification, feature_names=feature_names, DESCR='My data classification')
 
 if __name__ == '__main__':
-    print(createBunch())
+    print(create_bunch())
