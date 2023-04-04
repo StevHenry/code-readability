@@ -44,7 +44,7 @@ The metrics we chose to use are:
 | LBS         | Lines' break after statements                          | [ $0; 1$ ]          |
 | ~~BL~~      | Proportion of Blank Lines                              | [ $0; 1$ ]          |
 | ~~ID~~      | Proportion of good indentation                         | [ $0; 1$ ]          |
-| ~~IL~~      | Identifiers length (characters)                        | [ $1; +\infty$ ]    |
+| IL          | Identifiers length (characters)                        | [ $1; +\infty$ ]    |
 | ~~PA~~      | Max streak of opening parentheses before a closing one | [ $1; +\infty$ ]    |
 | ~~FP~~      | Max streak of following periods                        | [ $1; +\infty$ ]    |
 | SP          | Spaces (around comparison operators)                   | [ $1; +\infty$ ]    |

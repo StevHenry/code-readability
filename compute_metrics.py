@@ -1,15 +1,6 @@
-import sys
 import re
 import numpy as np
 from code_snippet import CodeSnippet, ProgrammingLanguage
-
-if __name__ == '__main__':
-    """ program parameters: files to compute """
-    arguments = sys.argv
-    if len(arguments) != 0:
-        files = arguments
-    else:
-        files = ['./resources/DatasetDorn/dataset/snippets/python/0.jsnp']
 
 
 def returnMetrics(code: CodeSnippet) -> tuple:
@@ -90,6 +81,5 @@ def max_streak_period(code):
     period_regex = r'(((([^\. \n])+\(.*?\))|[^\. \n]+)(\.((([^\. \n])+\(.*?\))|[^\. \n]+))+)'
     max_streak = 0
     for chain in re.findall(period_regex, code.get_code(False, False)):
-        print(chain[0].split('.'))
         max_streak = max(max_streak, len(chain[0].split('.')))
     return max_streak
