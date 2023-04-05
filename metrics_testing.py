@@ -1,4 +1,6 @@
 from compute_metrics import *
+from dataset_generator import *
+
 
 snippets = []
 file = open("./resources/DatasetDorn/dataset/snippets/python/5.jsnp", 'r', encoding="utf-8")
@@ -10,14 +12,11 @@ snippets.append(CodeSnippet(language=ProgrammingLanguage.C, original_text=file.r
 
 
 for index, snippet in enumerate(snippets):
+    metrics = get_all_metrics(snippet)
     print(f"------\nComputing metrics of snippet: index={index}, language={snippet.language}")
-    print("number_of_loops: ", reg_number_of_loops(snippet))
-    line_length = lines_length(snippet)
-    print("Line length mean: ", line_length[0])
-    print("Line length max: ", line_length[1])
-    print("Comment lines per code lines: ", comment_line_per_code_line(snippet))
-    print("Blank lines per code lines : ", blank_line_per_code_line(snippet))
-    print("Indentation rate: ", indentation_mean(snippet))
-    print("max_streak_opening_parentheses_py is : ", max_streak_opening_parentheses(snippet))
-    print("max_streak_period is : ", max_streak_period(snippet))
+    for key in metrics:
+        print(f'{key}: {metrics[key]}')
 
+
+print(get_classification_bunch(metrics=[CodeMetric.LINE_LENGTH_MAX]))
+print(get_classification_bunch())

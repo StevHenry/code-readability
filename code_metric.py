@@ -33,5 +33,13 @@ class CodeMetric(Enum):
     LM = 12
 
 
-NOT_IMPLEMENTED_METRICS = (CodeMetric.NESTED_LOOPS_AND_BRANCHES, CodeMetric.LINES_BREAK_AFTER_STATEMENTS,
-                           CodeMetric.IDENTIFIERS_LENGTH, CodeMetric.SPACES_AROUND_OPERATORS)
+NOT_IMPLEMENTED_METRICS = (CodeMetric.NESTED_LOOPS_AND_BRANCHES, CodeMetric.NL,
+                           CodeMetric.LINES_BREAK_AFTER_STATEMENTS, CodeMetric.LBS,
+                           CodeMetric.IDENTIFIERS_LENGTH, CodeMetric.IL,
+                           CodeMetric.SPACES_AROUND_OPERATORS, CodeMetric.SP)
+
+IMPLEMENTED_METRICS = [metric for metric in CodeMetric if metric not in NOT_IMPLEMENTED_METRICS]
+class ReadibilityClass(Enum):
+    NOT_VERY_READABLE = 0
+    QUITE_READABLE = 1
+    FULLY_READABLE = 2

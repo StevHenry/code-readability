@@ -1,7 +1,8 @@
 import re
 import numpy as np
 from code_snippet import CodeSnippet, ProgrammingLanguage
-from code_metric import CodeMetric, NOT_IMPLEMENTED_METRICS
+from code_metric import CodeMetric, IMPLEMENTED_METRICS
+from collections import OrderedDict
 
 
 def get_metric(metric: CodeMetric, snippet: CodeSnippet) -> int | float:
@@ -41,11 +42,10 @@ def get_metric(metric: CodeMetric, snippet: CodeSnippet) -> int | float:
             raise NotImplementedError
 
 
-def get_all_metrics(snippet: CodeSnippet) -> dict:
+def get_all_metrics(snippet: CodeSnippet) -> OrderedDict[CodeMetric, int | float]:
     """ Returns a dict<CodeMetric, value> for the provided code snippet """
-    result = dict()
-    implemented_metrics = [metric for metric in CodeMetric if metric not in NOT_IMPLEMENTED_METRICS]
-    for metric in implemented_metrics:
+    result = OrderedDict()
+    for metric in IMPLEMENTED_METRICS:
         result[metric] = get_metric(metric, snippet)
     return result
 
