@@ -92,6 +92,7 @@ def data_notes():
 
 #print("les notes sont", data_notes())
 #print("la taille de la liste des notes est", len(data_notes()))
+
 def data_notes_classification():
     notes = []
     for note in readCSV.readNotes('./resources/dataset/Dataset/scores.csv'):
