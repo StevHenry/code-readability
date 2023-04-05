@@ -5,6 +5,7 @@ from code_snippet import CodeSnippet, ProgrammingLanguage
 from readCSV import *
 from sklearn.utils import Bunch
 
+
 def data_features():
     listeNotesFeatures = []
     #premier dataset
@@ -135,7 +136,7 @@ print(k)
 def name_feature():
     names = ["number of lines", "number of Loops", "Lines length mean", "Lines length max",
              "comments line per code line", "Proportion of Blank Lines", "Identifiers length (characters)",
-             "Max streak of opening parentheses before a closing one"]
+             "Max streak of opening parentheses before a closing one", "Max streak periods"]
     return names
 
 #print("le nom des features sont : ",name_feature())
@@ -152,8 +153,10 @@ target_classification = data_notes_classification()
 def create_bunch():
     return Bunch(data=data, target=target, feature_names=feature_names, DESCR='My data')
 
+
 def create_bunch_classification():
     return Bunch(data=data, target=target_classification, feature_names=feature_names, DESCR='My data classification')
+
 
 if __name__ == '__main__':
     print(create_bunch())

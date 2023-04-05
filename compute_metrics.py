@@ -1,15 +1,6 @@
-import sys
 import re
 import numpy as np
 from code_snippet import CodeSnippet, ProgrammingLanguage
-
-if __name__ == '__main__':
-    """ program parameters: files to compute """
-    arguments = sys.argv
-    if len(arguments) != 0:
-        files = arguments
-    else:
-        files = ['./resources/DatasetDorn/dataset/snippets/python/0.jsnp']
 
 
 def returnMetrics(code: CodeSnippet) -> tuple:
@@ -21,8 +12,8 @@ def returnMetrics(code: CodeSnippet) -> tuple:
     code.BL = blank_line_per_code_line(code) #test OK
     code.ID = indentation_mean(code) #test ok
     code.PA = max_streak_opening_parentheses(code) #test OK
-    #code.FP = max_streak_period(code)
-    return code.LN, code.LC, code.AvgLL, code.MaxLL, code.CL, code.BL, code.ID, code.PA
+    code.FP = max_streak_period(code)
+    return code.LN, code.LC, code.AvgLL, code.MaxLL, code.CL, code.BL, code.ID, code.PA, code.FP
 
 
 def reg_number_of_lines(code: CodeSnippet):
@@ -90,106 +81,5 @@ def max_streak_period(code):
     period_regex = r'(((([^\. \n])+\(.*?\))|[^\. \n]+)(\.((([^\. \n])+\(.*?\))|[^\. \n]+))+)'
     max_streak = 0
     for chain in re.findall(period_regex, code.get_code(False, False)):
-        print(chain[0].split('.'))
         max_streak = max(max_streak, len(chain[0].split('.')))
     return max_streak
-
-
-file = open("./resources/DatasetDorn/dataset/snippets/python/5.jsnp", 'r', encoding="utf-8")
-snippetPython = file.read()
-codeSnippetPython = CodeSnippet(language=ProgrammingLanguage.PYTHON, original_text=snippetPython)
-
-file = open("./resources/DatasetDorn/dataset/snippets/java/106.jsnp", 'r', encoding="utf-8")
-snippetJava = file.read()
-codeSnippetJava = CodeSnippet(language=ProgrammingLanguage.JAVA, original_text=snippetJava)
-
-file = open("./resources/DatasetDorn/dataset/snippets/cuda/0.jsnp", 'r', encoding="utf-8")
-snippetCuda = file.read()
-codeSnippetCuda = CodeSnippet(language=ProgrammingLanguage.C, original_text=snippetCuda)
-
-# test_value_comments_readability = comments_readability(snippet1)
-# print("value_comments_readability is : ", test_value_comments_readability)
-"""
-test_number_of_lines = reg_number_of_lines(codeSnippet1)
-print("number_of_lines is : ", test_number_of_lines)
-
-
-test_number_of_loops_python = reg_number_of_loops(codeSnippetPython)
-print("number_of_loops for python snippet is : ",test_number_of_loops_python)
-
-test_number_of_loops_cuda = reg_number_of_loops(codeSnippetCuda)
-print("number_of_loops for cuda snippet is : ",test_number_of_loops_cuda)
-
-test_number_of_loops_java = reg_number_of_loops(codeSnippetJava)
-print("number_of_loops for java snippet is : ",test_number_of_loops_java)
-
-
-test_lines_length_mean_Py = lines_length(codeSnippetPython)[0]
-print("lines_length_mean Python is : ",test_lines_length_mean_Py)
-
-test_lines_length_mean_java = lines_length(codeSnippetJava)[0]
-print("lines_length_mean Java is : ",test_lines_length_mean_java)
-
-test_lines_length_mean_Cuda = lines_length(codeSnippetCuda)[0]
-print("lines_length_mean Cuda is : ",test_lines_length_mean_Cuda)
-
-
-test_lines_length_max_Py = lines_length(codeSnippetPython)[1]
-print("lines_length_max Python is : ",test_lines_length_max_Py)
-
-test_lines_length_max_java = lines_length(codeSnippetJava)[1]
-print("lines_length_max Java is : ",test_lines_length_max_java)
-
-test_lines_length_max_Cuda = lines_length(codeSnippetCuda)[1]
-print("lines_length_max Cuda is : ",test_lines_length_max_Cuda)
-"""
-
-"""
-test_comment_line_per_code_line_Py = comment_line_per_code_line(codeSnippetPython)
-print("comment_line_per_code_line_Py is : ",test_comment_line_per_code_line_Py)
-
-test_comment_line_per_code_line_java = comment_line_per_code_line(codeSnippetJava)
-print("comment_line_per_code_line Java is : ",test_comment_line_per_code_line_java)
-
-test_comment_line_per_code_line_cuda = comment_line_per_code_line(codeSnippetCuda)
-print("comment_line_per_code_line_cuda is : ",test_comment_line_per_code_line_cuda)
-
-
-test_blank_line_per_code_line_Py = blank_line_per_code_line(codeSnippetPython)
-print("blank_line_per_code_line_Py is : ",test_blank_line_per_code_line_Py)
-
-test_blank_line_per_code_line_java = blank_line_per_code_line(codeSnippetJava)
-print("blank_line_per_code_line Java is : ",test_blank_line_per_code_line_java)
-
-test_blank_line_per_code_line_cuda = blank_line_per_code_line(codeSnippetCuda)
-print("comment_line_per_code_line_cuda is : ",test_blank_line_per_code_line_cuda)
-
-
-test_indentation_Py = indentation_mean(codeSnippetPython)
-print("indentation_Py is : ", test_indentation_Py)
-
-test_indentation_Java = indentation_mean(codeSnippetJava)
-print("indentation_Java is : ", test_indentation_Java)
-
-test_indentation_Cuda = indentation_mean(codeSnippetCuda)
-print("indentation_Cuda is : ", test_indentation_Cuda)
-
-
-test_max_streak_opening_parentheses_py = max_streak_opening_parentheses(codeSnippetPython)
-print("max_streak_opening_parentheses_py is : ",test_max_streak_opening_parentheses_py)
-
-test_max_streak_opening_parentheses_java = max_streak_opening_parentheses(codeSnippetJava)
-print("max_streak_opening_parentheses_java is : ",test_max_streak_opening_parentheses_java)
-
-test_max_streak_opening_parentheses_cuda = max_streak_opening_parentheses(codeSnippetCuda)
-print("max_streak_opening_parentheses_cuda is : ",test_max_streak_opening_parentheses_cuda)
-
-"""
-test_max_streak_period = max_streak_period(codeSnippetJava)
-print("max_streak_period is : ", test_max_streak_period)
-"""
-with open('./resources/dataset/Dataset/Snippets/1.jsnp', "r") as fichier:
-    codeTest = CodeSnippet(ProgrammingLanguage.JAVA,"exemple de code \n etc")
-
-returnMetrics(codeTest)
-"""
