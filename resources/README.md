@@ -48,6 +48,7 @@ The metrics we chose to use are:
 | ~~PA~~      | Max streak of opening parentheses before a closing one | [ $1; +\infty$ ]    |
 | ~~FP~~      | Max streak of following periods                        | [ $1; +\infty$ ]    |
 | SP          | Spaces (around comparison operators)                   | [ $1; +\infty$ ]    |
+| ~~LM~~      | Lines length max                                       | [ $1; +\infty$ ]    |
 
 </div>
 

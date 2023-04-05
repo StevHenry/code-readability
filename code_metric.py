@@ -29,3 +29,9 @@ class CodeMetric(Enum):
     FP = 10
     SPACES_AROUND_OPERATORS = 11
     SP = 11
+    LINE_LENGTH_MAX = 12
+    LM = 12
+
+
+NOT_IMPLEMENTED_METRICS = (CodeMetric.NESTED_LOOPS_AND_BRANCHES, CodeMetric.LINES_BREAK_AFTER_STATEMENTS,
+                           CodeMetric.IDENTIFIERS_LENGTH, CodeMetric.SPACES_AROUND_OPERATORS)
