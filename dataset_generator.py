@@ -92,7 +92,7 @@ def data_notes_classification():
             notes[i]="très peu lisible"
         elif note < 4:
             notes[i]= "plutôt lisible"
-        elif note > 4:
+        elif note >= 4:
             notes[i] = "très lisible"
     return notes
 
