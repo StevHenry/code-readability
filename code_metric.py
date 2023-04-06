@@ -39,6 +39,8 @@ NOT_IMPLEMENTED_METRICS = (CodeMetric.NESTED_LOOPS_AND_BRANCHES, CodeMetric.NL,
                            CodeMetric.SPACES_AROUND_OPERATORS, CodeMetric.SP)
 
 IMPLEMENTED_METRICS = [metric for metric in CodeMetric if metric not in NOT_IMPLEMENTED_METRICS]
+
+
 class ReadibilityClass(Enum):
     NOT_VERY_READABLE = 0
     QUITE_READABLE = 1

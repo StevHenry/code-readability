@@ -3,7 +3,7 @@ import csv
 import numpy as np
 from numpy import ndarray
 
-import compute_metrics
+from compute_metrics import get_metric
 from sklearn.utils import Bunch
 from code_snippet import CodeSnippet, ProgrammingLanguage
 from code_metric import ReadibilityClass, CodeMetric, IMPLEMENTED_METRICS
@@ -90,7 +90,7 @@ def _get_dataset_list(is_classification: bool, metrics: list[CodeMetric]) -> tup
     scores.extend(_get_scores_from_file('./resources/DatasetDorn/dataset/scores/python.csv', 0, 1))
     classes = _convert_scores_to_classes(scores)
 
-    snippets_data = [[compute_metrics.get_metric(metric, snippet) for metric in metrics] for snippet in snippets]
+    snippets_data = [[get_metric(metric, snippet) for metric in metrics] for snippet in snippets]
 
     feature_names = [metric.name for metric in metrics]
     return (np.array(snippets_data),

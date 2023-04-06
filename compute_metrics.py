@@ -61,7 +61,7 @@ def _metric_number_of_loops(code: CodeSnippet):
     return len(forwhile_re.findall(code.get_code(False, False)))
 
 
-def _metrics_lines_length(code: CodeSnippet) -> (float, float):
+def _metrics_lines_length(code: CodeSnippet):
     """ Returns the value of CodeMetric.LINE_LENGTH_MEAN and CodeMetric.LINE_LENGTH_MAX """
     lines = code.get_code(True, True).split('\n')
     list_length = []
@@ -69,7 +69,7 @@ def _metrics_lines_length(code: CodeSnippet) -> (float, float):
         # vérifie que la ligne n'est pas vide ou ne contient pas que des espaces car sinon cela fausse la moyenne
         if line.replace(" ", "") != '':
             list_length.append(len(line))
-    return np.mean(list_length).astype(float), np.max(list_length).astype(float)
+    return float(np.mean(list_length)), float(np.max(list_length))
 
 
 def _metric_comment_line_per_code_line(code: CodeSnippet):
