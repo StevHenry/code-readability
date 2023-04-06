@@ -48,3 +48,20 @@ def main():
                     words += len(wordsplit(text))
                 except WrongFrameTypeError:
                     pass # ignore the error, it just wasn't a frame we can count
+
+"""
+blablabla
+blablablablablablablablabla
+blablabla
+blablabla
+blablabla
+blablabla
+blablabla
+blablabla
+blablabla
+blablabla
+blablabla
+blablabla
+blablabla
+blablabla
+"""
